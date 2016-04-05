@@ -5,7 +5,6 @@ var ctx2          = c2.getContext('2d');
 var x             = 0;
 var rightPressed  = false;
 var leftPressed   = false;
-var steps         = new Audio('steps.mp3');
 
 c.width           = window.innerWidth;
 c.height          = window.innerHeight + 4;
@@ -89,11 +88,9 @@ function draw() {
   drawCharacter();
   if(rightPressed == true) {
     x += 7;
-    steps.play();
   }
   else if(leftPressed == true) {
       x -= 7;
-      steps.play();
   }
   requestAnimationFrame(draw);
 }
@@ -134,7 +131,7 @@ function smallStarCreate(starNumber, starSize) {
       var colorVal01  = Math.floor(Math.random()*106) + 150;
       var colorVal02  = Math.floor(Math.random()*106) + 150;
       var opacityVal  = (Math.floor(Math.random()*11)) / 10;
-      ctx2.fillStyle   = "rgba(" + colorVal01 + ", " + colorVal02 + ", " + 255 + ", " + opacityVal + ")";
+      ctx2.fillStyle  = "rgba(" + colorVal01 + ", " + colorVal02 + ", " + 255 + ", " + opacityVal + ")";
       ctx2.fillRect(starLeft, starTop, starSize, starSize);
       ctx2.closePath();
       ctx2.fill();
@@ -150,3 +147,15 @@ window.addEventListener("keydown", function(e) {
         e.preventDefault();
     }
 }, false);
+
+
+//The SHooting stars are not in the second canvas, but manipulated with
+//CSS Keyframes.
+//This is used to generate a random position for them to appear in the strokeStyle
+function defineShootingStarPosition(){
+  document.querySelector('.star').style.left = Math.floor((Math.random() * 1500) + 1) + 'px';
+  document.querySelector('.star').style.top = Math.floor((Math.random() * 300) + 1)+ 'px';
+  setTimeout(defineShootingStarPosition, 1000);
+}
+
+defineShootingStarPosition();

@@ -15,14 +15,44 @@ body{
   z-index                     : -1; /*This makes the stars be the base of the screen*/
 }
 
+.star {
+  display                     : block;
+  width                       : 2px;
+  height                      : 2px;
+  border-radius               : 50%;
+  background                  : #FFF;
+  position                    : relative;
+  transform-origin            : 100% 0;
+  animation                   : star-ani 1s infinite ease-out;
+  animation-direction         : normal;
+  opacity                     : 0;
+}
+.star:after {
+  content                     : '';
+  position                    : absolute;
+  top                         : 0px;
+  left                        : 2px;
+  border                      : 2px solid #F00;
+  border-width                : 2px 150px 2px 150px;
+  border-color                : transparent transparent transparent #FFF;
+  transform                   : rotate(-45deg) translate3d(1px, -1px, 0);
+  transform-origin            : 0% 100%;
+  animation                   : shooting-ani 2s infinite  ease-out;
+  animation-direction         : normal;
+}
+
+
 .trees{
-  position: absolute;
-  margin-top: 20%;
-  z-index: 0;
+  position                    : absolute;
+  z-index                     : 0;
+  background-image            : url("forest.png");
+  background-repeat           : repeat-x;
+  background-position         : bottom;
+  margin-top                  : 10px;
 }
 
 .Moon{
-  position                  : absolute;;
+  position                  : absolute;
   background                : #DDD;
   width                     : 200px;
   height                    : 200px;
@@ -248,6 +278,28 @@ body{
 @-o-keyframes moveclouds {
 	0% {margin-left: 2000px;}
 	100% {margin-left: -1000px;}
+}
+
+
+@-webkit-keyframes shooting-ani {
+  0% {  }
+  50% { transform:scale(1) rotate(-45deg) translate(0px, 0px);}
+  100% {transform:scale(0.5) rotate(-45deg) translate(0px, -1px);}
+}
+
+@-webkit-keyframes star-ani {
+  0% {
+    opacity:0;
+    transform:scale(0) rotate(0) translate3d(0, 0, 0);
+  }
+  50% {
+    opacity:1;
+    transform:scale(1) rotate(0) translate3d(-200px, 200px, 0);
+  }
+  100% {
+    opacity:0;
+    transform:scale(1) rotate(0) translate3d(-300px, 300px, 0);
+  }
 }
 
 
