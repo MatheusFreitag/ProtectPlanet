@@ -7,7 +7,7 @@ var rightPressed  = false;
 var leftPressed   = false;
 
 c.width           = window.innerWidth;
-c.height          = window.innerHeight + 4;
+c.height          = window.innerHeight;
 c2.width          = window.innerWidth;
 c2.height         = window.innerHeight;
 
@@ -83,18 +83,20 @@ function drawCharacter(){
 
 }
 
+//Function to actually draw everything in the first Canvas
 function draw() {
   ctx.clearRect(0, 0, c.width, c.height);
   drawCharacter();
-  if(rightPressed == true) {
+  if(rightPressed == true && x < c.width - 190) {
     x += 7;
   }
-  else if(leftPressed == true) {
+  else if(leftPressed == true && x > -120) {
       x -= 7;
   }
   requestAnimationFrame(draw);
 }
 
+//Code that deals with the movements of the character
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
@@ -120,9 +122,9 @@ draw();
 
 
 //#############################################################################
-//#                       Second canvas starts here                         //#
-//#                       It deals with the stars                           //#
-//#############################################################################
+//                        Second canvas starts here
+//                         It deals with the stars
+
 function smallStarCreate(starNumber, starSize) {
   for(var i=0; i<starNumber; i++) {
       ctx2.beginPath();
@@ -141,6 +143,7 @@ function smallStarCreate(starNumber, starSize) {
 smallStarCreate(400, 1);
 smallStarCreate(100, 2);
 
+//Prevent the browser from scrool the screen when user press arrow keys and space bar
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
     if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
@@ -151,7 +154,7 @@ window.addEventListener("keydown", function(e) {
 
 //The SHooting stars are not in the second canvas, but manipulated with
 //CSS Keyframes.
-//This is used to generate a random position for them to appear in the strokeStyle
+//This is used to generate a random position for them to appear in the sky
 function defineShootingStarPosition(){
   document.querySelector('.star').style.left = Math.floor((Math.random() * 1500) + 1) + 'px';
   document.querySelector('.star').style.top = Math.floor((Math.random() * 300) + 1)+ 'px';
@@ -159,3 +162,22 @@ function defineShootingStarPosition(){
 }
 
 defineShootingStarPosition();
+
+
+
+//#############################################################################
+//                                CREDITS
+// I got a lot of inpiration from some sources on the internet
+//and I think they desearve credit for the amazing results
+//and the help that I got from them.
+//
+//The solar system idea and some of its implementation I got from:
+// CodePen: http://codepen.io/ImagineAlex/pen/qZRzqJ
+//
+//The Shooting Stars using keyframes came from:
+// CodePen: http://codepen.io/adamp33/pen/FnlmG
+//
+//The clouds were inpired by The Code Player:
+//http://thecodeplayer.com/walkthrough/pure-css3-animated-clouds-background
+//
+//
