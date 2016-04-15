@@ -1,54 +1,54 @@
 
 body{
-  background                  : #282A3A;
-  overflow                    : hidden;
-  margin                      : auto;
-
+  background                : #282A3A;
+  overflow                  : hidden;
+  margin                    : auto;
 }
+
 #myCanvas{
-  position                    : absolute;
-  z-index                     : 2; /*This makes the character be in front of the stars*/
+  position                  : absolute;
+  z-index                   : 2; /*This makes the character be in front of the stars*/
 }
 
 #myCanvas2{
-  position                    : relative;
-  z-index                     : -1; /*This makes the stars be the base of the screen*/
+  position                  : relative;
+  z-index                   : -1; /*This makes the stars be the base of the screen*/
 }
 
 .star {
-  display                     : block;
-  width                       : 2px;
-  height                      : 2px;
-  border-radius               : 50%;
-  background                  : #FFF;
-  position                    : relative;
-  transform-origin            : 100% 0;
-  animation                   : star-ani 1s infinite ease-out;
-  animation-direction         : normal;
-  opacity                     : 0;
+  display                   : block;
+  width                     : 2px;
+  height                    : 2px;
+  border-radius             : 50%;
+  background                : #FFF;
+  position                  : relative;
+  transform-origin          : 100% 0;
+  animation                 : star-ani 1s infinite ease-out;
+  animation-direction       : normal;
+  opacity                   : 0;
 }
 .star:after {
-  content                     : '';
-  position                    : absolute;
-  top                         : 0px;
-  left                        : 2px;
-  border                      : 2px solid #F00;
-  border-width                : 2px 150px 2px 150px;
-  border-color                : transparent transparent transparent #FFF;
-  transform                   : rotate(-45deg) translate3d(1px, -1px, 0);
-  transform-origin            : 0% 100%;
-  animation                   : shooting-ani 2s infinite  ease-out;
-  animation-direction         : normal;
+  content                   : '';
+  position                  : absolute;
+  top                       : 0px;
+  left                      : 2px;
+  border                    : 2px solid #F00;
+  border-width              : 2px 150px 2px 150px;
+  border-color              : transparent transparent transparent #FFF;
+  transform                 : rotate(-45deg) translate3d(1px, -1px, 0);
+  transform-origin          : 0% 100%;
+  animation                 : shooting-ani 2s infinite  ease-out;
+  animation-direction       : normal;
 }
 
 
 .trees{
-  position                    : absolute;
-  z-index                     : 0;
-  background-image            : url("forest.png");
-  background-repeat           : repeat-x;
-  background-position         : bottom;
-  margin-top                  : 10px;
+  position                  : absolute;
+  z-index                   : 0;
+  background-image          : url("forest.png");
+  background-repeat         : repeat-x;
+  background-position       : bottom;
+  margin-top                : 10px;
 }
 
 .Moon{
@@ -256,15 +256,15 @@ body{
 }
 
 .x5 {
-	left                       : -150px;
-  top                        : -150px;
-	-webkit-transform          : scale(0.8);
-	-moz-transform             : scale(0.8);
-	transform                  : scale(0.8);
-	opacity                    : 0.8; /*opacity proportional to the size*/
-	-webkit-animation          : moveclouds 20s linear infinite;
-	-moz-animation             : moveclouds 20s linear infinite;
-	-o-animation               : moveclouds 20s linear infinite;
+	left                      : -150px;
+  top                       : -150px;
+	-webkit-transform         : scale(0.8);
+	-moz-transform            : scale(0.8);
+	transform                 : scale(0.8);
+	opacity                   : 0.8; /*opacity proportional to the size*/
+	-webkit-animation         : moveclouds 20s linear infinite;
+	-moz-animation            : moveclouds 20s linear infinite;
+	-o-animation              : moveclouds 20s linear infinite;
 }
 
 @-webkit-keyframes moveclouds {
