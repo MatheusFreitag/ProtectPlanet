@@ -7,6 +7,26 @@ body{
 
 }
 
+#Placar{
+  position                  : absolute;
+  width                     : 200px;
+  height                    : 80px;
+  margin-left               : 80%;
+  margin-top                : 10px;
+  background-color          : #282A3A;
+  background-position       : center;
+  border-style              : dashed;
+  border-width              : 1px;
+  border-color              : white;
+  text-align                : center;
+  vertical-align            : middle;
+  line-height               : 80px;
+  font-family               : Helvetica;
+  font-size                 : 40px;
+  font-weight               : bold;
+  color                     : white;
+}
+
 #myCanvas{
   position                  : absolute;
   z-index                   : 2; /*This makes the character be in front of the stars*/

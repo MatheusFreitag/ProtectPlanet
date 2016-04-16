@@ -4,7 +4,7 @@ c.width = window.innerWidth;
 c.height = window.innerHeight;
 var Space = false;
 
-//Class Meteor
+//Class Bullets
 function Bullet(X) {
   //Variables
 	this.positionX = X;
@@ -40,18 +40,8 @@ function keyUpHandler(e) {
 
 
 //Create an array of Meteor Objects
-for (var i = 0; i < 5; i++) {
-  ArrayOfMeteors[i] = new Meteor();
-  newX = Math.floor(Math.random()* c.width);
-  if (newX < 30){
-    ArrayOfMeteors[i].updateX(30);
-  }
-  else if (newX > c.width) {
-    ArrayOfMeteors[i].updateX(c.width - 30);
-  }
-  else{
-    ArrayOfMeteors[i].updateX(newX);
-  }
+if(Space == true) {
+	x += 7;
 }
 
 //Draw the Meteors on the Screen

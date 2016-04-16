@@ -2,12 +2,12 @@ var c               = document.getElementById('myCanvas');
 var c2              = document.getElementById('myCanvas2');
 var ctx             = c.getContext('2d');
 var ctx2            = c2.getContext('2d');
-var x               = 0;
 var rightPressed    = false;
 var leftPressed     = false;
+var Space           = false;
 var ArrayOfMeteors  = [];
-var newX            = 0;
-
+var numberOfMeteors = 5;
+var numberOfLives   = 3;
 c.width             = window.innerWidth;
 c.height            = window.innerHeight;
 c2.width            = window.innerWidth;
@@ -15,30 +15,31 @@ c2.height           = window.innerHeight;
 
 
 //Draw Character parts
+var character = new Character();
 function drawCharacter(){
   //draw upper body
   ctx.fillStyle="#1a1a1a";
   ctx.beginPath();
-  ctx.arc(150+x,c.height - 100,30,0*Math.PI,2*Math.PI);
+  ctx.arc(character.getX(),character.getY(),30,0*Math.PI,2*Math.PI);
   ctx.closePath();
   ctx.fill()
   //draw body
   ctx.fillStyle="#1a1a1a";
   ctx.beginPath();
-  ctx.fillRect(120+x,c.height - 100,60,100);
+  ctx.fillRect(character.getX() - 30,character.getY(),60,100);
   ctx.closePath();
   ctx.stroke();
   //draw face
   ctx.fillStyle="#eebb99";
   ctx.beginPath();
-  ctx.arc(160+x,c.height - 100,25,0*Math.PI,2*Math.PI);
+  ctx.arc(character.getX() + 10,character.getY(),25,0*Math.PI,2*Math.PI);
   ctx.closePath();
   ctx.fill();
 
   //draw left eye
   ctx.fillStyle="#000000";
   ctx.beginPath();
-  ctx.arc(155+x,c.height - 105,7,0*Math.PI,2*Math.PI);
+  ctx.arc(character.getX() + 5,character.getY() - 5,7,0*Math.PI,2*Math.PI);
   ctx.closePath();
   ctx.fill()
   ctx.lineWidth = 2;
@@ -50,7 +51,7 @@ function drawCharacter(){
   //draw right eye
   ctx.fillStyle="#000000";
   ctx.beginPath();
-  ctx.arc(175+x,c.height - 105,7,0*Math.PI,2*Math.PI);
+  ctx.arc(character.getX() + 25 ,character.getY() - 5,7,0*Math.PI,2*Math.PI);
   ctx.closePath();
   ctx.fill()
   ctx.lineWidth = 2;
@@ -62,20 +63,20 @@ function drawCharacter(){
   //draw left inner eye
   ctx.fillStyle="#000";
   ctx.beginPath();
-  ctx.arc(158+x,c.height - 105,5,0*Math.PI,2*Math.PI);
+  ctx.arc(character.getX() + 8,character.getY() - 5,5,0*Math.PI,2*Math.PI);
   ctx.closePath();
   ctx.fill()
 
   //draw right inner eye
   ctx.fillStyle="#00";
   ctx.beginPath();
-  ctx.arc(178+x,c.height - 105,5,0*Math.PI,2*Math.PI);
+  ctx.arc(character.getX() + 28,character.getY() - 5,5,0*Math.PI,2*Math.PI);
   ctx.closePath();
   ctx.fill()
 
   //draw smile
   ctx.beginPath();
-  ctx.arc(170+x, c.height - 90, 7, 0, Math.PI, false);
+  ctx.arc(character.getX() + 20 , character.getY() + 10, 7, 0, Math.PI, false);
   ctx.closePath();
   ctx.lineWidth = 2;
   ctx.fillStyle = 'red';
@@ -89,12 +90,20 @@ function drawCharacter(){
 function draw() {
   ctx.clearRect(0, 0, c.width, c.height);
   drawCharacter();
-  if(rightPressed == true && x < c.width - 190) {
-    x += 7;
+
+  if(Space == true) {
+    //drawBullets();
   }
-  else if(leftPressed == true && x > -120) {
-      x -= 7;
+
+  if(rightPressed == true && character.getX() < c.width - 40) {
+    character.updateX(character.getX() + 17);
   }
+
+  else if(leftPressed == true && character.getX() > 30) {
+      character.updateX(character.getX() - 17);
+  }
+
+  document.getElementById("Placar").innerHTML = "Lives: " + numberOfLives;
 
   requestAnimationFrame(draw);
 }
@@ -104,6 +113,10 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
 function keyDownHandler(e) {
+  if(e.keyCode == 32) {
+      Space = true;
+  }
+
   if(e.keyCode == 39) {
       rightPressed = true;
   }
@@ -113,6 +126,9 @@ function keyDownHandler(e) {
 }
 
 function keyUpHandler(e) {
+  if(e.keyCode == 32) {
+      Space = false;
+  }
   if(e.keyCode == 39) {
       rightPressed = false;
   }
@@ -149,11 +165,10 @@ smallStarCreate(100, 2);
 //Prevent the browser from scrool the screen when user press arrow keys and space bar
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
 }, false);
-
 
 //The SHooting stars are not in the second canvas, but manipulated with
 //CSS Keyframes.
@@ -166,6 +181,21 @@ function defineShootingStarPosition(){
 
 defineShootingStarPosition();
 
+function Character(){
+  this.positionX = 150;
+  this.positionY = c.height - 100;
+  //Methods
+  this.updateX = function(X) {
+       this.positionX = X;
+  }
+  this.getX = function(){
+       return this.positionX;
+  };
+  this.getY = function(){
+       return this.positionY;
+  };
+}
+
 
 
 //Here I deal with the Meteors
@@ -174,7 +204,7 @@ defineShootingStarPosition();
 function Meteor() {
   //Variables
 	this.positionX = 0;
-  this.positionY = 0;
+  this.positionY = Math.floor(Math.random() * (c.height /2) ) - (c.height / 2);
   //Methods
   this.updateX = function(X) {
        this.positionX = X;
@@ -191,7 +221,7 @@ function Meteor() {
 }
 
 //Create an array of Meteor Objects
-for (var i = 0; i < 5; i++) {
+for (var i = 0; i < numberOfMeteors; i++) {
   ArrayOfMeteors[i] = new Meteor();
   newX = Math.floor(Math.random()* c.width);
   if (newX < 30){
@@ -208,19 +238,45 @@ for (var i = 0; i < 5; i++) {
 //Draw the Meteors on the Screen
 function drawMeteors(){
   	ctx.fillStyle="#FFF";
-    ctx.beginPath();
-    for (var i=0; i<5; i++){
+    for (var i=0; i<numberOfMeteors; i++){
+      ctx.beginPath();
       ctx.arc(ArrayOfMeteors[i].getX(), ArrayOfMeteors[i].getY(),30,0*Math.PI,2*Math.PI);
       ArrayOfMeteors[i].updateY(ArrayOfMeteors[i].getY() + 3);
+      ctx.closePath();
+      ctx.fill();
     }
-    ctx.closePath();
-    ctx.fill();
     requestAnimationFrame(drawMeteors);
 }
 
 drawMeteors();
 
 
+/*
+function Bullet(X, Y) {
+  //Variables
+	this.positionX = X;
+  this.positionY = Y;
+  //Methods
+  this.updateY = function(Y) {
+       this.positionY = Y;
+  }
+  this.getX = function(){
+       return this.positionX;
+  };
+  this.getY = function(){
+       return this.positionY;
+  };
+}
+
+function drawBullets(X,Y){
+  var bullet = new Bullet(X,Y);
+  ctx.fillStyle="#FFF";
+  ctx.beginPath();
+  ctx.fillRect(bullet.getX(),bullet.getY(),bullet.getX()+2,bullet.getY()+2);
+  ctx.closePath();
+  ctx.fill();
+}
+*/
 //#############################################################################
 //                                CREDITS
 // I got a lot of inpiration from some sources on the internet
