@@ -2,18 +2,14 @@ var c = document.getElementById('myCanvas');
 var ctx = c.getContext('2d');
 c.width = window.innerWidth;
 c.height = window.innerHeight;
-var ArrayOfMeteors = [];
-var newX = 0;
+var Space = false;
 
-//Class Meteor
-function Meteor() {
+//Class Bullets
+function Bullet(X) {
   //Variables
-	this.positionX = 0;
+	this.positionX = X;
   this.positionY = 0;
   //Methods
-  this.updateX = function(X) {
-       this.positionX = X;
-  }
   this.updateY = function(Y) {
        this.positionY = Y;
   }
@@ -25,19 +21,27 @@ function Meteor() {
   };
 }
 
+
+//Code that deals with the movements of the character
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e) {
+  if(e.keyCode == 32) {
+      Space = true;
+  }
+}
+
+function keyUpHandler(e) {
+  if(e.keyCode == 32) {
+      Space = false;
+  }
+}
+
+
 //Create an array of Meteor Objects
-for (var i = 0; i < 5; i++) {
-  ArrayOfMeteors[i] = new Meteor();
-  newX = Math.floor(Math.random()* c.width);
-  if (newX < 30){
-    ArrayOfMeteors[i].updateX(30);
-  }
-  else if (newX > c.width) {
-    ArrayOfMeteors[i].updateX(c.width - 30);
-  }
-  else{
-    ArrayOfMeteors[i].updateX(newX);
-  }  
+if(Space == true) {
+	x += 7;
 }
 
 //Draw the Meteors on the Screen

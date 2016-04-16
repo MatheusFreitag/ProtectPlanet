@@ -1,8 +1,30 @@
 
 body{
+  position                  : relative;;
   background                : #282A3A;
   overflow                  : hidden;
   margin                    : auto;
+
+}
+
+#Placar{
+  position                  : absolute;
+  width                     : 200px;
+  height                    : 80px;
+  margin-left               : 80%;
+  margin-top                : 10px;
+  background-color          : #282A3A;
+  background-position       : center;
+  border-style              : dashed;
+  border-width              : 1px;
+  border-color              : white;
+  text-align                : center;
+  vertical-align            : middle;
+  line-height               : 80px;
+  font-family               : Helvetica;
+  font-size                 : 40px;
+  font-weight               : bold;
+  color                     : white;
 }
 
 #myCanvas{
@@ -13,6 +35,14 @@ body{
 #myCanvas2{
   position                  : relative;
   z-index                   : -1; /*This makes the stars be the base of the screen*/
+}
+
+.trees{
+  background-image          : url("forest.png");
+  background-repeat         : repeat-x;
+  background-position       : bottom;
+  padding-bottom             : 10px;
+  z-index                   : -1;
 }
 
 .star {
@@ -41,16 +71,6 @@ body{
   animation-direction       : normal;
 }
 
-
-.trees{
-  position                  : absolute;
-  z-index                   : 0;
-  background-image          : url("forest.png");
-  background-repeat         : repeat-x;
-  background-position       : bottom;
-  margin-top                : 10px;
-}
-
 .Moon{
   position                  : absolute;
   background                : #DDD;
@@ -66,6 +86,7 @@ body{
   position                  : absolute;
   top                       : 50%;
   left                      : 50%;
+  z-index: -3;
 }
 
 .Mercury{
