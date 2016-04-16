@@ -1,8 +1,10 @@
 
 body{
+  position                  : relative;;
   background                : #282A3A;
   overflow                  : hidden;
   margin                    : auto;
+
 }
 
 #myCanvas{
@@ -13,6 +15,14 @@ body{
 #myCanvas2{
   position                  : relative;
   z-index                   : -1; /*This makes the stars be the base of the screen*/
+}
+
+.trees{
+  background-image          : url("forest.png");
+  background-repeat         : repeat-x;
+  background-position       : bottom;
+  padding-bottom             : 10px;
+  z-index                   : -1;
 }
 
 .star {
@@ -41,16 +51,6 @@ body{
   animation-direction       : normal;
 }
 
-
-.trees{
-  position                  : absolute;
-  z-index                   : 0;
-  background-image          : url("forest.png");
-  background-repeat         : repeat-x;
-  background-position       : bottom;
-  margin-top                : 10px;
-}
-
 .Moon{
   position                  : absolute;
   background                : #DDD;
@@ -66,6 +66,7 @@ body{
   position                  : absolute;
   top                       : 50%;
   left                      : 50%;
+  z-index: -3;
 }
 
 .Mercury{
