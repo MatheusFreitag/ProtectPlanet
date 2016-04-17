@@ -8,6 +8,9 @@ var Space           = false;
 var ArrayOfMeteors  = [];
 var numberOfMeteors = 5;
 var numberOfLives   = 3;
+var numberOfBullet  = 0;
+var thereIsBullet   = 0;
+
 c.width             = window.innerWidth;
 c.height            = window.innerHeight;
 c2.width            = window.innerWidth;
@@ -86,21 +89,29 @@ function drawCharacter(){
 
 }
 
+function updateBulletsPosition(){
+  BulletPosY = character.getY();
+  BulletPosX = character.getX();
+}
+
+updateBulletsPosition();
+
 //Function to actually draw everything in the first Canvas
 function draw() {
   ctx.clearRect(0, 0, c.width, c.height);
+  if(Space == true) {
+    drawBullets(BulletPosX, BulletPosY);
+    BulletPosY -= 50;
+  }
   drawCharacter();
 
-  if(Space == true) {
-    //drawBullets();
-  }
 
   if(rightPressed == true && character.getX() < c.width - 40) {
-    character.updateX(character.getX() + 17);
+    character.updateX(character.getX() + 7);
   }
 
   else if(leftPressed == true && character.getX() > 30) {
-      character.updateX(character.getX() - 17);
+      character.updateX(character.getX() - 7);
   }
 
   document.getElementById("Placar").innerHTML = "Lives: " + numberOfLives;
@@ -114,7 +125,10 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 function keyDownHandler(e) {
   if(e.keyCode == 32) {
+    if (thereIsBullet == 0){
+      updateBulletsPosition();
       Space = true;
+    }
   }
 
   if(e.keyCode == 39) {
@@ -126,9 +140,7 @@ function keyDownHandler(e) {
 }
 
 function keyUpHandler(e) {
-  if(e.keyCode == 32) {
-      Space = false;
-  }
+
   if(e.keyCode == 39) {
       rightPressed = false;
   }
@@ -196,15 +208,14 @@ function Character(){
   };
 }
 
-
-
 //Here I deal with the Meteors
-
 //Class Meteor
 function Meteor() {
   //Variables
 	this.positionX = 0;
   this.positionY = Math.floor(Math.random() * (c.height /2) ) - (c.height / 2);
+  this.DangerZone = 0;
+  this.isShot = 0
   //Methods
   this.updateX = function(X) {
        this.positionX = X;
@@ -212,11 +223,23 @@ function Meteor() {
   this.updateY = function(Y) {
        this.positionY = Y;
   }
+  this.updateDangerZone = function(Z) {
+       this.DangerZone = Z;
+  }
+  this.updateShot = function(Z) {
+       this.isShot = Z;
+  }
   this.getX = function(){
        return this.positionX;
   };
   this.getY = function(){
        return this.positionY;
+  };
+  this.getDangerZone = function(){
+       return this.DangerZone;
+  };
+  this.getShot = function(){
+       return this.isShot;
   };
 }
 
@@ -237,31 +260,67 @@ for (var i = 0; i < numberOfMeteors; i++) {
 
 //Draw the Meteors on the Screen
 function drawMeteors(){
-  	ctx.fillStyle="#FFF";
     for (var i=0; i<numberOfMeteors; i++){
-      ctx.beginPath();
-      ctx.arc(ArrayOfMeteors[i].getX(), ArrayOfMeteors[i].getY(),30,0*Math.PI,2*Math.PI);
-      ArrayOfMeteors[i].updateY(ArrayOfMeteors[i].getY() + 3);
-      ctx.closePath();
-      ctx.fill();
+      if (ArrayOfMeteors[i].getShot() == 0){
+        ctx.fillStyle="#F00";
+        ctx.beginPath();
+        ctx.arc(ArrayOfMeteors[i].getX(), ArrayOfMeteors[i].getY(),30,0*Math.PI,2*Math.PI);
+        ArrayOfMeteors[i].updateY(ArrayOfMeteors[i].getY() + 1);
+        ctx.closePath();
+        ctx.fill();
     }
+  }
     requestAnimationFrame(drawMeteors);
 }
 
+
 drawMeteors();
 
+function alive(){
+  for (var i=0; i<numberOfMeteors; i++){
+    if((ArrayOfMeteors[i].getY() > c.height - 200) && (ArrayOfMeteors[i].getDangerZone() != 1)){
+      ArrayOfMeteors[i].updateDangerZone(1);
+      numberOfLives -= 1;
+    }
+  }
 
-/*
+  if (numberOfLives < 0){
+    //alert("GAME OVER! - You lost all your lives and the following asteroids can no longer be defeated");
+    //restart();
+  }
+
+  requestAnimationFrame(alive);
+}
+
+alive();
+
+function restart(){
+  for (var i=0; i < numberOfMeteors; i++){
+    ArrayOfMeteors[i].updateDangerZone(0)
+    ArrayOfMeteors[i].updateY(Math.floor(Math.random() * (c.height /2) ) - (c.height / 2));
+  }
+  numberOfLives = 3;
+  character.updateX(150);
+  leftPressed = false;
+  rightPressed = false;
+  Space = false;
+}
+
+
 function Bullet(X, Y) {
   //Variables
 	this.positionX = X;
   this.positionY = Y;
+  this.exist = 0;
   //Methods
   this.updateY = function(Y) {
        this.positionY = Y;
   }
   this.getX = function(){
        return this.positionX;
+  };
+  this.getExist = function(){
+       return this.exist;
   };
   this.getY = function(){
        return this.positionY;
@@ -272,11 +331,26 @@ function drawBullets(X,Y){
   var bullet = new Bullet(X,Y);
   ctx.fillStyle="#FFF";
   ctx.beginPath();
-  ctx.fillRect(bullet.getX(),bullet.getY(),bullet.getX()+2,bullet.getY()+2);
+  ctx.fillRect(bullet.getX(),bullet.getY()-40,7,7);
   ctx.closePath();
   ctx.fill();
+  thereIsBullet = 1;
+
+
+  for (var i = 0; i < numberOfMeteors; i++){
+    if((bullet.getY() <= ArrayOfMeteors[i].getY()) && (bullet.getX() <= (ArrayOfMeteors[i].getX()+30)) && (bullet.getX() >= (ArrayOfMeteors[i].getX()-30)) ){
+      console.log("Aqui");
+      ArrayOfMeteors[i].updateShot(1);
+    }
+  }
+
+  if (bullet.getY() < 0){
+    updateBulletsPosition();
+    thereIsBullet = 0;
+    Space = false;
+  }
 }
-*/
+
 //#############################################################################
 //                                CREDITS
 // I got a lot of inpiration from some sources on the internet
