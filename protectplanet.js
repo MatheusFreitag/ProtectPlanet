@@ -429,3 +429,26 @@ function drawBullets(X,Y){
 //http://thecodeplayer.com/walkthrough/pure-css3-animated-clouds-background
 //
 //
+// This project is free and Open Source. You may use it however you want it
+//but please give the proper credit to me and all the others that helped
+//me with this.
+//Thanks!
+
+/*
+
+⊂_ヽ
+　 ＼＼
+　　 ＼( ͡ ° ͜ʖ ͡°)
+　　　 >　⌒ヽ
+　　　/ 　 へ＼
+　　 /　　/　＼＼
+　　 ﾚ　ノ　　 ヽ_つ
+　　/　/
+　 /　/|            #####################################
+　(　(ヽ            #  Made with <3 by Matheus Freitag  #
+　|　|、＼          # https://github.com/MatheusFreitag #
+　| 丿 ＼ ⌒)       #####################################
+　| |　　) /
+`ノ )　　Lﾉ
+
+*/
