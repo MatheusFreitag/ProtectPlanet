@@ -7,17 +7,23 @@ var leftPressed     = false;
 var Space           = false;
 var ArrayOfMeteors  = [];
 var numberOfMeteors = 5;
+var numOfShotMeteor = 0;
 var numberOfLives   = 3;
 var numberOfBullet  = 0;
 var thereIsBullet   = 0;
+var Level           = 1;
+var aboveLine       = 0;
+var underLine       = 0;
 
 c.width             = window.innerWidth;
 c.height            = window.innerHeight;
 c2.width            = window.innerWidth;
 c2.height           = window.innerHeight;
-
+var lowestY         = c.height;
 
 //Draw Character parts
+alert("PROTECT PLANET \nKill the asteroids with SPACE. Move the character with ARROW KEYS");
+createMeteors();
 var character = new Character();
 function drawCharacter(){
   //draw upper body
@@ -103,18 +109,19 @@ function draw() {
     drawBullets(BulletPosX, BulletPosY);
     BulletPosY -= 50;
   }
-  drawCharacter();
+drawCharacter();
 
 
-  if(rightPressed == true && character.getX() < c.width - 40) {
+  if(rightPressed == true && character.getX() < c.width - 5) {
     character.updateX(character.getX() + 7);
   }
 
-  else if(leftPressed == true && character.getX() > 30) {
+  else if(leftPressed == true && character.getX() > 5) {
       character.updateX(character.getX() - 7);
   }
 
   document.getElementById("Placar").innerHTML = "Lives: " + numberOfLives;
+  document.getElementById("Level").innerHTML = "Level: " + Level;
 
   requestAnimationFrame(draw);
 }
@@ -152,9 +159,6 @@ function keyUpHandler(e) {
 draw();
 
 
-//#############################################################################
-//                        Second canvas starts here
-//                         It deals with the stars
 
 function smallStarCreate(starNumber, starSize) {
   for(var i=0; i<starNumber; i++) {
@@ -181,6 +185,12 @@ window.addEventListener("keydown", function(e) {
         e.preventDefault();
     }
 }, false);
+
+window.onkeydown = function(e) {
+  if (e.keyCode == 32 && e.target == document.body) {
+    e.preventDefault();
+  }
+};
 
 //The SHooting stars are not in the second canvas, but manipulated with
 //CSS Keyframes.
@@ -244,17 +254,19 @@ function Meteor() {
 }
 
 //Create an array of Meteor Objects
-for (var i = 0; i < numberOfMeteors; i++) {
-  ArrayOfMeteors[i] = new Meteor();
-  newX = Math.floor(Math.random()* c.width);
-  if (newX < 30){
-    ArrayOfMeteors[i].updateX(30);
-  }
-  else if (newX > c.width) {
-    ArrayOfMeteors[i].updateX(c.width - 30);
-  }
-  else{
-    ArrayOfMeteors[i].updateX(newX);
+function createMeteors(){
+  for (var i = 0; i < numberOfMeteors; i++) {
+    ArrayOfMeteors[i] = new Meteor();
+    newX = Math.floor(Math.random()* c.width);
+    if (newX < 30){
+      ArrayOfMeteors[i].updateX(30);
+    }
+    else if (newX > c.width) {
+      ArrayOfMeteors[i].updateX(c.width - 30);
+    }
+    else{
+      ArrayOfMeteors[i].updateX(newX);
+    }
   }
 }
 
@@ -262,39 +274,50 @@ for (var i = 0; i < numberOfMeteors; i++) {
 function drawMeteors(){
     for (var i=0; i<numberOfMeteors; i++){
       if (ArrayOfMeteors[i].getShot() == 0){
-        ctx.fillStyle="#F00";
+        ctx.fillStyle="#E15B37";
         ctx.beginPath();
         ctx.arc(ArrayOfMeteors[i].getX(), ArrayOfMeteors[i].getY(),30,0*Math.PI,2*Math.PI);
         ArrayOfMeteors[i].updateY(ArrayOfMeteors[i].getY() + 1);
         ctx.closePath();
         ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#550000';
+        ctx.stroke();
+      }
     }
-  }
+    if (numOfShotMeteor == numberOfMeteors && numberOfLives >= 0){
+      nextLevel();
+    }
+
+    for(var i = 0; i<numberOfMeteors; i++){
+      if(ArrayOfMeteors[i].getShot() == 0){
+          if(ArrayOfMeteors[i].getY() > c.height - 100){
+            underLine++;
+          }
+
+        if(ArrayOfMeteors[i].getY() < c.height - 100){
+          aboveLine++;
+        }
+      }
+    }
+
+    if (underLine > 0 && aboveLine==0 && numberOfLives>=0){
+      nextLevel();
+    }
+
+    underLine = 0;
+    aboveLine = 0;
     requestAnimationFrame(drawMeteors);
 }
 
 
+
 drawMeteors();
 
-function alive(){
-  for (var i=0; i<numberOfMeteors; i++){
-    if((ArrayOfMeteors[i].getY() > c.height - 200) && (ArrayOfMeteors[i].getDangerZone() != 1)){
-      ArrayOfMeteors[i].updateDangerZone(1);
-      numberOfLives -= 1;
-    }
-  }
-
-  if (numberOfLives < 0){
-    //alert("GAME OVER! - You lost all your lives and the following asteroids can no longer be defeated");
-    //restart();
-  }
-
-  requestAnimationFrame(alive);
-}
-
-alive();
-
-function restart(){
+function nextLevel(){
+  var Level2 = Level;
+  numberOfMeteors = numberOfMeteors + 5;
+  createMeteors();
   for (var i=0; i < numberOfMeteors; i++){
     ArrayOfMeteors[i].updateDangerZone(0)
     ArrayOfMeteors[i].updateY(Math.floor(Math.random() * (c.height /2) ) - (c.height / 2));
@@ -304,6 +327,45 @@ function restart(){
   leftPressed = false;
   rightPressed = false;
   Space = false;
+  numOfShotMeteor = 0;
+  numberOfBullet  = 0;
+  thereIsBullet   = 0;
+  Level = Level2 + 1;
+  needToRefresh   = false;
+}
+
+function alive(){
+  for (var i=0; i<numberOfMeteors; i++){
+    if((ArrayOfMeteors[i].getY() > c.height - 100) && (ArrayOfMeteors[i].getDangerZone() != 1)){
+      ArrayOfMeteors[i].updateDangerZone(1);
+      numberOfLives -= 1;
+    }
+  }
+
+  if (numberOfLives < 0){
+    alert("GAME OVER! - You lost all your lives and the following asteroids can no longer be defeated");
+    restart();
+  }
+
+  requestAnimationFrame(alive);
+}
+
+alive();
+
+function restart(){
+  numberOfMeteors = 5;
+  createMeteors();
+  for (var i=0; i < numberOfMeteors; i++){
+    ArrayOfMeteors[i].updateDangerZone(0)
+    ArrayOfMeteors[i].updateY(Math.floor(Math.random() * (c.height /2) ) - (c.height / 2));
+  }
+  numberOfLives = 3;
+  character.updateX(150);
+  leftPressed = false;
+  rightPressed = false;
+  Space = false;
+  Level = 1;
+  needToRefresh  = false;
 }
 
 
@@ -338,9 +400,9 @@ function drawBullets(X,Y){
 
 
   for (var i = 0; i < numberOfMeteors; i++){
-    if((bullet.getY() <= ArrayOfMeteors[i].getY()) && (bullet.getX() <= (ArrayOfMeteors[i].getX()+30)) && (bullet.getX() >= (ArrayOfMeteors[i].getX()-30)) ){
-      console.log("Aqui");
+    if((bullet.getY() <= ArrayOfMeteors[i].getY()) && (bullet.getX() <= (ArrayOfMeteors[i].getX()+30)) && (bullet.getX() >= (ArrayOfMeteors[i].getX()-30)) && ArrayOfMeteors[i].getShot() != 1){
       ArrayOfMeteors[i].updateShot(1);
+      numOfShotMeteor +=1;
     }
   }
 
