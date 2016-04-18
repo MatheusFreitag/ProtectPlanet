@@ -27,6 +27,26 @@ body{
   color                     : white;
 }
 
+#Level{
+  position                  : absolute;
+  width                     : 200px;
+  height                    : 20px;
+  margin-left               : 80%;
+  margin-top                : 90px;
+  background-color          : #282A3A;
+  background-position       : center;
+  border-style              : dashed;
+  border-width              : 1px;
+  border-color              : white;
+  text-align                : center;
+  vertical-align            : middle;
+  line-height               : 20px;
+  font-family               : Helvetica;
+  font-size                 : 15px;
+  font-weight               : bold;
+  color                     : white;
+}
+
 #myCanvas{
   position                  : absolute;
   z-index                   : 2; /*This makes the character be in front of the stars*/
@@ -308,7 +328,53 @@ body{
   100% {transform:scale(0.5) rotate(-45deg) translate(0px, -1px);}
 }
 
+@-moz-keyframes shooting-ani{
+  0% {  }
+  50% { transform:scale(1) rotate(-45deg) translate(0px, 0px);}
+  100% {transform:scale(0.5) rotate(-45deg) translate(0px, -1px);}
+}
+
+
+@-o-keyframes shooting-ani{
+  0% {  }
+  50% { transform:scale(1) rotate(-45deg) translate(0px, 0px);}
+  100% {transform:scale(0.5) rotate(-45deg) translate(0px, -1px);}
+}
+
+
+
 @-webkit-keyframes star-ani {
+  0% {
+    opacity:0;
+    transform:scale(0) rotate(0) translate3d(0, 0, 0);
+  }
+  50% {
+    opacity:1;
+    transform:scale(1) rotate(0) translate3d(-200px, 200px, 0);
+  }
+  100% {
+    opacity:0;
+    transform:scale(1) rotate(0) translate3d(-300px, 300px, 0);
+  }
+}
+
+@-moz-keyframes star-ani{
+  0% {
+    opacity:0;
+    transform:scale(0) rotate(0) translate3d(0, 0, 0);
+  }
+  50% {
+    opacity:1;
+    transform:scale(1) rotate(0) translate3d(-200px, 200px, 0);
+  }
+  100% {
+    opacity:0;
+    transform:scale(1) rotate(0) translate3d(-300px, 300px, 0);
+  }
+}
+
+
+@-o-keyframes star-ani{
   0% {
     opacity:0;
     transform:scale(0) rotate(0) translate3d(0, 0, 0);
