@@ -354,7 +354,7 @@ function alive(){
 }
 
 function reload() {
-  location.reload();
+  location.reload(true);
 }
 
 alive();
