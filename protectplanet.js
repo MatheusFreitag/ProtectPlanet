@@ -345,15 +345,13 @@ function alive(){
     }, 2000)
 
   }
-  else{
-    for (var i=0; i<numberOfMeteors; i++){
-      if((ArrayOfMeteors[i].getY() > c.height - 100) && (ArrayOfMeteors[i].getDangerZone() != 1)){
-        ArrayOfMeteors[i].updateDangerZone(1);
-        numberOfLives -= 1;
-      }
+
+  for (var i=0; i<numberOfMeteors; i++){
+    if((ArrayOfMeteors[i].getY() > c.height - 100) && (ArrayOfMeteors[i].getDangerZone() != 1)){
+      ArrayOfMeteors[i].updateDangerZone(1);
+      numberOfLives -= 1;
     }
   }
-
 
 
 
@@ -361,7 +359,7 @@ function alive(){
 }
 
 function reload() {
-  location.reload(true);
+  location.reload();
 }
 
 alive();
