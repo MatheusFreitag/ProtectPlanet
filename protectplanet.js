@@ -344,7 +344,11 @@ function alive(){
   }
 
   if (numberOfLives < 0){
-    alert("GAME OVER! - You lost all your lives and the following asteroids can no longer be defeated");
+    var restart = false;
+    if (!restart) {
+      alert("GAME OVER! - You lost all your lives and the following asteroids can no longer be defeated");
+      restart = true;
+    }
     restart();
   }
 
