@@ -22,7 +22,7 @@ c2.height           = window.innerHeight;
 var lowestY         = c.height;
 
 //Draw Character parts
-alert("PROTECT PLANET \nKill the asteroids with SPACE. Move the character with ARROW KEYS");
+//alert("PROTECT PLANET \nKill the asteroids with SPACE. Move the character with ARROW KEYS");
 createMeteors();
 var character = new Character();
 function drawCharacter(){
@@ -122,6 +122,7 @@ drawCharacter();
 
   document.getElementById("Placar").innerHTML = "Lives: " + numberOfLives;
   document.getElementById("Level").innerHTML = "Level: " + Level;
+  document.getElementById("Instruction").innerHTML = "ARROW KEYS to move <br> ENTER to shoot";
 
   requestAnimationFrame(draw);
 }
@@ -353,7 +354,7 @@ function alive(){
 alive();
 
 function restart(){
-  numberOfMeteors = 5;
+  /*numberOfMeteors = 5;
   createMeteors();
   for (var i=0; i < numberOfMeteors; i++){
     ArrayOfMeteors[i].updateDangerZone(0)
@@ -365,7 +366,8 @@ function restart(){
   rightPressed = false;
   Space = false;
   Level = 1;
-  needToRefresh  = false;
+  needToRefresh  = false;*/
+  location.reload();
 }
 
 
@@ -446,7 +448,7 @@ function drawBullets(X,Y){
 　　/　/
 　 /　/|            #####################################
 　(　(ヽ            #  Made with <3 by Matheus Freitag  #
-　|　|、＼          # https://github.com/MatheusFreitag #
+　|　|、＼          # https://matheusfreitag.github.io #
 　| 丿 ＼ ⌒)       #####################################
 　| |　　) /
 `ノ )　　Lﾉ
