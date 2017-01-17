@@ -341,8 +341,8 @@ function alive(){
     document.getElementById("Level").innerHTML = "Restarting...";
     document.getElementById("Instruction").innerHTML = ":(";
     setTimeout(()=> {
-      reload();
-    }, 2000)
+      location.reload();
+    }, 3000);
 
   }
 
@@ -356,10 +356,6 @@ function alive(){
 
 
   requestAnimationFrame(alive);
-}
-
-function reload() {
-  location.reload();
 }
 
 alive();
