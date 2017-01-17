@@ -344,11 +344,17 @@ function alive(){
   }
 
   if (numberOfLives < 0){
-    alert("GAME OVER! - You lost all your lives and the following asteroids can no longer be defeated");
-    location.reload(true);
+    document.getElementById("Placar").innerHTML = "DEAD";
+    document.getElementById("Level").innerHTML = "Restarting...";
+    document.getElementById("Instruction").innerHTML = ":(";
+    setTimeout(reload, 2000);
   }
 
   requestAnimationFrame(alive);
+}
+
+function reload() {
+  location.reload();
 }
 
 alive();
