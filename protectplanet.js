@@ -344,35 +344,14 @@ function alive(){
   }
 
   if (numberOfLives < 0){
-    var restart = false;
-    if (!restart) {
-      alert("GAME OVER! - You lost all your lives and the following asteroids can no longer be defeated");
-      restart = true;
-    }
-    restart();
+    alert("GAME OVER! - You lost all your lives and the following asteroids can no longer be defeated");
+    location.reload(true);
   }
 
   requestAnimationFrame(alive);
 }
 
 alive();
-
-function restart(){
-  /*numberOfMeteors = 5;
-  createMeteors();
-  for (var i=0; i < numberOfMeteors; i++){
-    ArrayOfMeteors[i].updateDangerZone(0)
-    ArrayOfMeteors[i].updateY(Math.floor(Math.random() * (c.height /2) ) - (c.height / 2));
-  }
-  numberOfLives = 3;
-  character.updateX(150);
-  leftPressed = false;
-  rightPressed = false;
-  Space = false;
-  Level = 1;
-  needToRefresh  = false;*/
-  location.reload();
-}
 
 
 function Bullet(X, Y) {
