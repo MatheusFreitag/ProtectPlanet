@@ -336,13 +336,6 @@ function nextLevel(){
 }
 
 function alive(){
-  for (var i=0; i<numberOfMeteors; i++){
-    if((ArrayOfMeteors[i].getY() > c.height - 100) && (ArrayOfMeteors[i].getDangerZone() != 1)){
-      ArrayOfMeteors[i].updateDangerZone(1);
-      numberOfLives -= 1;
-    }
-  }
-
   if (numberOfLives < 0){
     document.getElementById("Placar").innerHTML = "DEAD";
     document.getElementById("Level").innerHTML = "Restarting...";
@@ -352,6 +345,17 @@ function alive(){
     }, 2000)
 
   }
+  else{
+    for (var i=0; i<numberOfMeteors; i++){
+      if((ArrayOfMeteors[i].getY() > c.height - 100) && (ArrayOfMeteors[i].getDangerZone() != 1)){
+        ArrayOfMeteors[i].updateDangerZone(1);
+        numberOfLives -= 1;
+      }
+    }
+  }
+
+
+
 
   requestAnimationFrame(alive);
 }
