@@ -347,7 +347,10 @@ function alive(){
     document.getElementById("Placar").innerHTML = "DEAD";
     document.getElementById("Level").innerHTML = "Restarting...";
     document.getElementById("Instruction").innerHTML = ":(";
-    setTimeout(reload, 2000);
+    setTimeout(()=> {
+      reload();
+    }, 2000)
+
   }
 
   requestAnimationFrame(alive);
